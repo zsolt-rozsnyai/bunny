@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "socket"
 
 module Bunny
@@ -52,7 +54,7 @@ module Bunny
     def read_fully(count, timeout = nil)
       return nil if @__bunny_socket_eof_flag__
 
-      value = ''
+      value = []
       begin
         loop do
           value << read_nonblock(count - value.bytesize)
@@ -68,7 +70,7 @@ module Bunny
           raise Timeout::Error, "IO timeout when reading #{count} bytes"
         end
       end
-      value
+      value.join
     end # read_fully
 
     # Writes provided data using IO#write_nonblock, taking care of handling
